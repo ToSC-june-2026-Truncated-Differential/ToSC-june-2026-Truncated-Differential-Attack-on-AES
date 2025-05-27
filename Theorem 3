@@ -148,11 +148,6 @@ double compute_triple_sum(int m) {
                 288 * P_ij(i, 0) * pow(P_ij(i, 2), 3) +
                 288 * pow(P_ij(i, 1), 3) * P_ij(i, 3)
             ) +
-            G(1,1,3,4) * (
-                576 * pow(P_ij(i, 2), 3) * P_ij(i, 1) +
-                144 * P_ij(i, 0) * P_ij(i, 3) * pow(P_ij(i, 2), 2) +
-                288 * pow(P_ij(i, 1), 2) * P_ij(i, 2) * P_ij(i, 3)
-            ) +
             G(2,2,3,4) * (
                 576 * pow(P_ij(i, 1), 3) * P_ij(i, 2) +
                 720 * P_ij(i, 0) * P_ij(i, 1) * pow(P_ij(i, 2), 2) +
@@ -263,9 +258,8 @@ int main() {
     double triple_sum_result = compute_triple_sum(m);
     double divisor = compute_divisor();
     double final_result_divided = triple_sum_result / divisor;
-    printf("\nFinal result divided to probability of the random permutation: %.16f\n", final_result_divided);
+    printf("\nFinal result divided to probability of the random permutation: %.20f\n", final_result_divided);
 
 
     return 0;
 }
-
