@@ -1,4 +1,3 @@
-
 #include <stdio.h>
 #include <stdlib.h>
 #include <math.h>
@@ -16,7 +15,7 @@ int total_rounds;
 double total_prob;
 unsigned long long path_count;
 
-int target_counts[NCOLS] = {1, 1, 2, 3};
+int target_counts[NCOLS] = {1, 2, 3, 4};
 
 static inline int delta(int m) {
     return (m > 0) ? 1 : 0;
@@ -91,8 +90,6 @@ void dfs_mc_columns(int col,
         double prob = P_ij(i, p);
         if (prob <= 0.0) continue;
 
-        //printf("[col %d] i=%d, p=%d, P_ij=%g\n", col, i, p, prob);
-
         int mask_max = 1 << NROWS;  // 16
         for(int mask = 0; mask < mask_max; mask++) {
             if (__builtin_popcount(mask) != p) continue;
@@ -114,13 +111,49 @@ int main() {
     for(int k = 0; k < NBYTES; k++)
         in.active[k] = 1;
 
-
     state_t sr0, mc0;
     shift_rows(&in, &sr0);
     mc0 = sr0;
 
     dfs_mc_columns(0, &sr0, &mc0, 1.0, 1);
 
-    printf("Number of path: %llu\n", path_count);
+    int counts_copy[NCOLS];
+    for(int i = 0; i < NCOLS; i++) counts_copy[i] = target_counts[i];
+    for(int i = 0; i < NCOLS - 1; i++) {
+        for(int j = i + 1; j < NCOLS; j++) {
+            if (counts_copy[i] > counts_copy[j]) {
+                int tmp = counts_copy[i];
+                counts_copy[i] = counts_copy[j];
+                counts_copy[j] = tmp;
+            }
+        }
+    }
+
+    int freq[NCOLS] = {0};
+    int distinct_cnt = 0;
+    for(int i = 0; i < NCOLS; ) {
+        int v = counts_copy[i];
+        int c = 1;
+        int j = i + 1;
+        while (j < NCOLS && counts_copy[j] == v) {
+            c++;
+            j++;
+        }
+        freq[distinct_cnt++] = c;
+        i = j;
+    }
+    unsigned long long multiplier = 1;
+    unsigned long long fact_n = 1;
+    for(int i = 1; i <= NCOLS; i++) fact_n *= i;
+
+    unsigned long long denom = 1;
+    for(int i = 0; i < distinct_cnt; i++) {
+        unsigned long long f = 1;
+        for(int k = 1; k <= freq[i]; k++) f *= k;
+        denom *= f;
+    }
+    multiplier = fact_n / denom;
+    printf("Number of Path: %llu\n", path_count * multiplier);
+
     return 0;
 }
