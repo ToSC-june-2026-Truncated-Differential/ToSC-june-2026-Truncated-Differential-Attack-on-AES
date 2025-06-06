@@ -11,5 +11,5 @@ Before running this code, adjust a random permutation value in the "double compu
 (2^{32j-126})*((1-2^{-32})^{j})*((1-2^{-128})^{-1}).
 
 For Theorem 2;
-Using the code in this section, you can compute the values of for your chosen
+Using the code in this section, you can compute the values of $P^6_{m,2}$ for your chosen m values. Then, using the code in the Corollary1 file, find the corresponding Pr[m->_{6}3] ratio for the same m values. Finally, apply the formula given in Theorem 2 to calculate Pr[m->_{6}2] for each m. 
 
