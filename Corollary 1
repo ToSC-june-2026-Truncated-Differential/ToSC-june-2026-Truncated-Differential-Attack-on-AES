@@ -51,7 +51,8 @@ int main() {
     double double_sum_result = compute_modified_double_sum(m);
     double divisor = compute_divisor();
     double final_result_divided = double_sum_result / divisor;
-    printf("\nFinal result divided to probability of the random permutation: %.16f\n", final_result_divided);
+    printf("\nFinal result divided to probability of a random permutation: %.16f\n", final_result_divided);
+    printf("\nlog2 result: %.16f\n", log2(double_sum_result));
 
     return 0;
 }
