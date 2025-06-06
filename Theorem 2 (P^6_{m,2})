@@ -89,7 +89,6 @@ int main() {
     double triple_sum_result = compute_triple_sum(m);
     double divisor = compute_divisor();
     double final_result_divided = triple_sum_result / divisor;
-    printf("\nFinal result divided to probability of the random permutation: %.16f\n", final_result_divided);
 
     if (triple_sum_result > 0) {
         printf("Log2 Result: %.30f\n", log2(triple_sum_result));
